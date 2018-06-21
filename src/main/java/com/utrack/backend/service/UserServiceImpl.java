@@ -1,5 +1,7 @@
 package com.utrack.backend.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,18 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDAO;
 
 	@Override
-	public User createUser(User user) {
+	public int createUser(User user) {
 		return userDAO.createUser(user);
+	}
+
+	@Override
+	public List<User> getUsers() {
+		return userDAO.getUsers();
+	}
+
+	@Override
+	public User getUserbyId(int id) {
+		return userDAO.getUserbyId(id);
 	}
 
 }
