@@ -5,10 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "User")
+@Table(name = "users")
 public class User {
 
 	@Id
@@ -19,7 +21,9 @@ public class User {
 	private String name;
 	@Column(name = "password")
 	private String password;
-	@Column(name = "role")
+
+	@ManyToOne
+	@JoinColumn(name = "role_id")
 	private Role role;
 
 	public User(String name, String password, Role role) {
@@ -31,15 +35,6 @@ public class User {
 
 	public User() {
 		super();
-	}
-
-	public enum Role {
-		admin("ADMIN"), emp("emp");
-		private String role;
-
-		private Role(String role) {
-			this.role = role;
-		}
 	}
 
 	public String getName() {

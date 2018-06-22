@@ -2,8 +2,10 @@ package com.utrack.backend.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Expression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -33,6 +35,15 @@ public class UserDAOImpl implements UserDAO {
 	public User getUserbyId(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		return session.get(User.class, id);
+	}
+
+	@Override
+	public User findUserByName(String username) {
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(User.class);
+		criteria.add(Expression.eq("name", username));
+		User user = (User) criteria.uniqueResult();
+		return user;
 	}
 
 }
