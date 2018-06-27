@@ -1,4 +1,4 @@
-package com.utrack.backend.authentication;
+package com.utrack.backend.security;
 
 import java.io.IOException;
 import java.io.PrintWriter;

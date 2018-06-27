@@ -18,19 +18,19 @@ import com.utrack.backend.model.User;
 import com.utrack.backend.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/utrack")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	public ResponseEntity<Object> getUser() {
 		List<User> userList = userService.getUsers();
 		return new ResponseEntity<Object>(userList, HttpStatus.OK);
 	}
 
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
 		int id = userService.createUser(user);
 		HttpHeaders headers = new HttpHeaders();
@@ -38,7 +38,7 @@ public class UserController {
 		return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
 	public ResponseEntity<User> getUserById(@PathVariable("id") int id) {
 		User user = userService.getUserbyId(id);
 		return new ResponseEntity<>(user, HttpStatus.OK);
