@@ -9,10 +9,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.utrack.backend.interceptor.IAuditLog;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements IAuditLog {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +29,7 @@ public class User {
 
 	@Column(name = "name")
 	private String name;
+
 	@Column(name = "password")
 	private String password;
 
@@ -48,6 +58,30 @@ public class User {
 
 	public Role getRole() {
 		return role;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	@Transient
+	@Override
+	@JsonIgnore
+	public String getLogDetail() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("User Name : ").append(this.getName()).append(", Role : ").append(this.getRole().getName());
+		return builder.toString();
+	}
+
+	@Transient
+	@Override
+	@JsonIgnore
+	public int getEntityId() {
+		return this.getId();
 	}
 
 }

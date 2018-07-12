@@ -43,4 +43,23 @@ public class UserController {
 		User user = userService.getUserbyId(id);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
+
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<User> deleteUserById(@PathVariable("id") int id) {
+		User user = userService.getUserbyId(id);
+		userService.deleteUserById(id);
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<User> updateUserById(@RequestBody User updatedUser, @PathVariable("id") int id) {
+		User user = null;
+		try {
+			user = userService.updateUsebyId(id, updatedUser);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
 }

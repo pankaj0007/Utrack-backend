@@ -46,4 +46,24 @@ public class UserDAOImpl implements UserDAO {
 		return user;
 	}
 
+	@Override
+	public void deleteUserById(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		User user = session.get(User.class, id);
+		session.delete(user);
+	}
+
+	@Override
+	public User updateUserById(int id, User updatedUser) throws Exception {
+		Session session = sessionFactory.getCurrentSession();
+		User user = session.get(User.class, id);
+		session.evict(user);
+		if (user == null) {
+			throw new Exception("User not available");
+		}
+		updatedUser.setId(id);
+		session.update(updatedUser);
+		return updatedUser;
+	}
+
 }

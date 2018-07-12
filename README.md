@@ -61,6 +61,14 @@ Response :
   }
 }]
 
+
+========================================================================================================================================
+Audit log support using MongoDB
+========================================================================================================================================
+1. Spring Hibernate - MongoDB connection
+2. Using Interceptor to log database events
+3. Inserted, Update and Delete log database activity
+
 Helpful links : 
 
 Spring-boot-hibernate-CRUD : http://candidjava.com/tutorial/spring-boot-hibernate-crud-example/
@@ -70,5 +78,7 @@ Mysql Commands :  http://g2pc1.bu.edu/~qzpeng/manual/MySQL%20Commands.htm
 Jackson Exception : http://www.baeldung.com/jackson-exception
 
 JWT Based Web token : https://medium.com/@nydiarra/secure-a-spring-boot-rest-api-with-json-web-token-reference-to-angular-integration-e57a25806c50
+
+Interceptor Mongo Audit log: https://www.mkyong.com/hibernate/hibernate-interceptor-example-audit-log/
 
 

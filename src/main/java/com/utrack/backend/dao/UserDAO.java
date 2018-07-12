@@ -13,4 +13,8 @@ public interface UserDAO {
 	public User findUserByName(String username);
 
 	public User getUserbyId(int id);
+
+	public void deleteUserById(int id);
+
+	public User updateUserById(int id, User user) throws Exception;
 }

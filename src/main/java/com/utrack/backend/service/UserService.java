@@ -11,4 +11,8 @@ public interface UserService {
 	public List<User> getUsers();
 
 	public User getUserbyId(int id);
+
+	public void deleteUserById(int id);
+
+	public User updateUsebyId(int id, User user) throws Exception;
 }

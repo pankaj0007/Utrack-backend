@@ -32,4 +32,14 @@ public class UserServiceImpl implements UserService {
 		return userDAO.getUserbyId(id);
 	}
 
+	@Override
+	public void deleteUserById(int id) {
+		userDAO.deleteUserById(id);
+	}
+
+	@Override
+	public User updateUsebyId(int id, User user) throws Exception {
+		return userDAO.updateUserById(id, user);
+	}
+
 }
