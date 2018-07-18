@@ -57,6 +57,7 @@ public class UserDAOImpl implements UserDAO {
 	public User updateUserById(int id, User updatedUser) throws Exception {
 		Session session = sessionFactory.getCurrentSession();
 		User user = session.get(User.class, id);
+		updatedUser.createPreviousRecord(user);
 		session.evict(user);
 		if (user == null) {
 			throw new Exception("User not available");

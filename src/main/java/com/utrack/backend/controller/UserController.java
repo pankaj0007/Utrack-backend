@@ -57,7 +57,6 @@ public class UserController {
 		try {
 			user = userService.updateUsebyId(id, updatedUser);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new ResponseEntity<>(user, HttpStatus.OK);

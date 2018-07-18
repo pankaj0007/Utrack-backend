@@ -37,6 +37,9 @@ public class User implements IAuditLog {
 	@JoinColumn(name = "role_id")
 	private Role role;
 
+	@JsonIgnore
+	private String previousRecord;
+
 	public User(String name, String password, Role role) {
 		super();
 		this.name = name;
@@ -71,10 +74,15 @@ public class User implements IAuditLog {
 	@Transient
 	@Override
 	@JsonIgnore
-	public String getLogDetail() {
+	public String getCurrentData() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("User Name : ").append(this.getName()).append(", Role : ").append(this.getRole().getName());
 		return builder.toString();
+	}
+
+	@Override
+	public String getPreviousData() {
+		return this.previousRecord;
 	}
 
 	@Transient
@@ -82,6 +90,13 @@ public class User implements IAuditLog {
 	@JsonIgnore
 	public int getEntityId() {
 		return this.getId();
+	}
+
+	@JsonIgnore
+	public void createPreviousRecord(User user) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("User Name : ").append(user.getName()).append(", Role : ").append(user.getRole().getName());
+		this.previousRecord = builder.toString();
 	}
 
 }
