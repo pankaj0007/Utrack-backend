@@ -5,10 +5,11 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.utrack.backend.dao.UserDAO;
-import com.utrack.backend.model.User;
+import com.utrack.backend.model.UserDO;
 
 @Service
 @Transactional
@@ -18,28 +19,36 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDAO;
 
 	@Override
-	public int createUser(User user) {
+	public Long createUser(UserDO user) {
+		System.out.println("hash password : " + BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
+		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
 		return userDAO.createUser(user);
 	}
 
 	@Override
-	public List<User> getUsers() {
+	public List<UserDO> getUsers() {
 		return userDAO.getUsers();
 	}
 
 	@Override
-	public User getUserbyId(int id) {
+	public UserDO getUserbyId(Long id) {
 		return userDAO.getUserbyId(id);
 	}
 
 	@Override
-	public void deleteUserById(int id) {
+	public void deleteUserById(Long id) {
 		userDAO.deleteUserById(id);
 	}
 
 	@Override
-	public User updateUsebyId(int id, User user) throws Exception {
+	public UserDO updateUsebyId(Long id, UserDO user) throws Exception {
 		return userDAO.updateUserById(id, user);
+	}
+
+	@Override
+	public UserDO getUserbyName(String username) {
+		// TODO Auto-generated method stub
+		return userDAO.findUserByName(username);
 	}
 
 }

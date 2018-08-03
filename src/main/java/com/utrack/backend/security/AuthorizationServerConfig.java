@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -53,8 +54,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer configurer) throws Exception {
-		configurer.inMemory().withClient(clientId).secret(clientSecret).authorizedGrantTypes(grantType)
-				.scopes(scopeRead, scopeWrite).resourceIds(resouceIds);
+		configurer.inMemory().withClient(clientId).secret(clientSecret).authorizedGrantTypes("client-credentials", "password","refresh_token")
+				.scopes(scopeRead, scopeWrite).resourceIds(resouceIds).accessTokenValiditySeconds(60*10).refreshTokenValiditySeconds(60*10);
 	}
 
 	@Override
@@ -79,4 +80,5 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		return bean;
 	}
 
+ 
 }

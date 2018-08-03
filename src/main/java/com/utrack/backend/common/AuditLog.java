@@ -15,7 +15,7 @@ import lombok.Setter;
 @Document(collection = "auditLogs")
 public class AuditLog implements Serializable {
 
-	public AuditLog(int entityId, String action, String previousData, String currentData, Date createdDate,
+	public AuditLog(Long entityId, String action, String previousData, String currentData, Date createdDate,
 			String entityName) {
 		this.entityId = entityId;
 		this.action = action;
@@ -45,7 +45,7 @@ public class AuditLog implements Serializable {
 
 	private Date createdDate;
 
-	private int entityId;
+	private Long entityId;
 
 	private String entityName;
 
@@ -89,11 +89,11 @@ public class AuditLog implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public int getEntityId() {
+	public Long getEntityId() {
 		return entityId;
 	}
 
-	public void setEntityId(int entityId) {
+	public void setEntityId(Long entityId) {
 		this.entityId = entityId;
 	}
 

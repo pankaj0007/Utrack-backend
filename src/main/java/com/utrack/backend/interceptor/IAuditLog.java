@@ -4,7 +4,7 @@ public interface IAuditLog {
 
 	public String getCurrentData();
 
-	public int getEntityId();
+	public Long getEntityId();
 
 	public String getPreviousData();
 }

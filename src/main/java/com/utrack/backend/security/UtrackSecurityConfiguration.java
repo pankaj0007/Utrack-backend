@@ -12,8 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -41,6 +39,9 @@ public class UtrackSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UtrackUserDetailsService userDetailsService;
 
+	@Autowired
+	private CustomAuthenticationProvider customAuthenticationProvider;
+
 	@Bean
 	@Override
 	protected AuthenticationManager authenticationManager() throws Exception {
@@ -51,7 +52,9 @@ public class UtrackSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		System.out.println("configure Auth");
 		// super.configure(auth);
-		auth.userDetailsService(userDetailsService);
+		// auth.userDetailsService(userDetailsService);
+		auth.authenticationProvider(customAuthenticationProvider);
+
 	}
 
 	@Override
@@ -59,12 +62,6 @@ public class UtrackSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		System.out.println("configure http");
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().httpBasic()
 				.realmName(securityRealm).and().csrf().disable();
-	}
-
-	@SuppressWarnings("deprecation")
-	@Bean
-	public static NoOpPasswordEncoder passwordEncoder() {
-		return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
 	}
 
 	@Bean

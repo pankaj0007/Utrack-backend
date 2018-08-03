@@ -16,7 +16,7 @@ import com.utrack.backend.interceptor.IAuditLog;
 
 @Entity
 @Table(name = "users")
-public class User implements IAuditLog {
+public class UserDO extends BaseDO implements IAuditLog {
 
 	/**
 	 * 
@@ -25,7 +25,7 @@ public class User implements IAuditLog {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 
 	@Column(name = "name")
 	private String name;
@@ -33,21 +33,37 @@ public class User implements IAuditLog {
 	@Column(name = "password")
 	private String password;
 
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "userfullname")
+	private String fullName;
+
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "role_id")
-	private Role role;
+	@JoinColumn(name = "roleid")
+	private RoleDO role;
+
+	@Column(name = "isactive")
+	private Short active;
+
+	@Column(name = "needtochangepassword")
+	private Short passwordChange;
+
+	@Column(name = "remember_token")
+	private String isRememberToken;
 
 	@JsonIgnore
 	private String previousRecord;
 
-	public User(String name, String password, Role role) {
+	public UserDO(String name, String password, RoleDO role, String email) {
 		super();
 		this.name = name;
 		this.password = password;
 		this.role = role;
+		this.email = email;
 	}
 
-	public User() {
+	public UserDO() {
 		super();
 	}
 
@@ -59,16 +75,28 @@ public class User implements IAuditLog {
 		return password;
 	}
 
-	public Role getRole() {
+	public RoleDO getRole() {
 		return role;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Transient
@@ -88,12 +116,12 @@ public class User implements IAuditLog {
 	@Transient
 	@Override
 	@JsonIgnore
-	public int getEntityId() {
+	public Long getEntityId() {
 		return this.getId();
 	}
 
 	@JsonIgnore
-	public void createPreviousRecord(User user) {
+	public void createPreviousRecord(UserDO user) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("User Name : ").append(user.getName()).append(", Role : ").append(user.getRole().getName());
 		this.previousRecord = builder.toString();

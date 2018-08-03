@@ -9,7 +9,7 @@ import org.hibernate.criterion.Expression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.utrack.backend.model.User;
+import com.utrack.backend.model.UserDO;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -18,45 +18,45 @@ public class UserDAOImpl implements UserDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public int createUser(User user) {
+	public Long createUser(UserDO user) {
 		Session session = sessionFactory.getCurrentSession();
-		return (int) session.save(user);
+		return (Long) session.save(user);
 	}
 
 	@Override
-	public List<User> getUsers() {
+	public List<UserDO> getUsers() {
 		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		List<User> list = session.createCriteria(User.class).list();
+		List<UserDO> list = session.createCriteria(UserDO.class).list();
 		return list;
 	}
 
 	@Override
-	public User getUserbyId(int id) {
+	public UserDO getUserbyId(Long id) {
 		Session session = sessionFactory.getCurrentSession();
-		return session.get(User.class, id);
+		return session.get(UserDO.class, id);
 	}
 
 	@Override
-	public User findUserByName(String username) {
+	public UserDO findUserByName(String username) {
 		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(User.class);
+		Criteria criteria = session.createCriteria(UserDO.class);
 		criteria.add(Expression.eq("name", username));
-		User user = (User) criteria.uniqueResult();
+		UserDO user = (UserDO) criteria.uniqueResult();
 		return user;
 	}
 
 	@Override
-	public void deleteUserById(int id) {
+	public void deleteUserById(Long id) {
 		Session session = sessionFactory.getCurrentSession();
-		User user = session.get(User.class, id);
+		UserDO user = session.get(UserDO.class, id);
 		session.delete(user);
 	}
 
 	@Override
-	public User updateUserById(int id, User updatedUser) throws Exception {
+	public UserDO updateUserById(Long id, UserDO updatedUser) throws Exception {
 		Session session = sessionFactory.getCurrentSession();
-		User user = session.get(User.class, id);
+		UserDO user = session.get(UserDO.class, id);
 		updatedUser.createPreviousRecord(user);
 		session.evict(user);
 		if (user == null) {

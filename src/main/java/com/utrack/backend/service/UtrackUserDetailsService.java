@@ -6,15 +6,17 @@ import java.util.Collection;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.utrack.backend.dao.UserDAO;
-import com.utrack.backend.model.User;
+import com.utrack.backend.model.UserDO;
 
 @Service
 @Transactional
@@ -26,7 +28,7 @@ public class UtrackUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.println("loadUserByUsername");
-		User user = userDAO.findUserByName(username);
+		UserDO user = userDAO.findUserByName(username);
 		if (user == null) {
 			throw new UsernameNotFoundException("username " + username + " not found");
 		}
@@ -34,7 +36,7 @@ public class UtrackUserDetailsService implements UserDetailsService {
 				getAuthorities(user));
 	}
 
-	public Collection<GrantedAuthority> getAuthorities(User user) {
+	public Collection<GrantedAuthority> getAuthorities(UserDO user) {
 		System.out.println("getAuthorities");
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
 		if (user.getRole().getName().equalsIgnoreCase("admin")) {

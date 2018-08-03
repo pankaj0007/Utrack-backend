@@ -2,19 +2,19 @@ package com.utrack.backend.dao;
 
 import java.util.List;
 
-import com.utrack.backend.model.User;
+import com.utrack.backend.model.UserDO;
 
 public interface UserDAO {
 
-	public int createUser(User user);
+	public Long createUser(UserDO user);
 
-	public List<User> getUsers();
+	public List<UserDO> getUsers();
 
-	public User findUserByName(String username);
+	public UserDO findUserByName(String username);
 
-	public User getUserbyId(int id);
+	public UserDO getUserbyId(Long id);
 
-	public void deleteUserById(int id);
+	public void deleteUserById(Long id);
 
-	public User updateUserById(int id, User user) throws Exception;
+	public UserDO updateUserById(Long id, UserDO user) throws Exception;
 }
