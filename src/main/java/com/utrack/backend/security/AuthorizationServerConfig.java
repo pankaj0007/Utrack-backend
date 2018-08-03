@@ -13,13 +13,14 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import com.utrack.backend.service.UtrackUserDetailsService;
 
 @Configuration
 @EnableAuthorizationServer
@@ -52,10 +53,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	@Autowired
+	private UtrackUserDetailsService userDetailsService;
+
 	@Override
 	public void configure(ClientDetailsServiceConfigurer configurer) throws Exception {
-		configurer.inMemory().withClient(clientId).secret(clientSecret).authorizedGrantTypes("client-credentials", "password","refresh_token")
-				.scopes(scopeRead, scopeWrite).resourceIds(resouceIds).accessTokenValiditySeconds(60*10).refreshTokenValiditySeconds(60*10);
+		configurer.inMemory().withClient(clientId).secret(clientSecret)
+				.authorizedGrantTypes("client-credentials", "password", "refresh_token").scopes(scopeRead, scopeWrite)
+				.resourceIds(resouceIds).accessTokenValiditySeconds(60).refreshTokenValiditySeconds(60*2);
 	}
 
 	@Override
@@ -63,10 +68,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
 		enhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter));
 		endpoints.tokenStore(tokenStore).accessTokenConverter(accessTokenConverter).tokenEnhancer(enhancerChain)
-				.authenticationManager(authenticationManager);
+				.authenticationManager(authenticationManager).userDetailsService(userDetailsService);
 	}
 
-    @Bean
+	@Bean
 	public FilterRegistrationBean corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
@@ -80,5 +85,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		return bean;
 	}
 
- 
 }

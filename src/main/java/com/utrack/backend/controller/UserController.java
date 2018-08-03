@@ -26,7 +26,7 @@ public class UserController {
 	private UserService userService;
 
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	//@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Object> getUser() {
 		List<UserDO> userList = userService.getUsers();
 		return new ResponseEntity<Object>(userList, HttpStatus.OK);
@@ -41,7 +41,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_ACCOUNT')")
+	//@PreAuthorize("hasRole('ROLE_ACCOUNT')")
 	public ResponseEntity<UserDO> getUserById(@PathVariable("id") Long id) {
 		UserDO user = userService.getUserbyId(id);
 		return new ResponseEntity<>(user, HttpStatus.OK);
