@@ -84,4 +84,8 @@ JWT Based Web token : https://medium.com/@nydiarra/secure-a-spring-boot-rest-api
 
 Interceptor Mongo Audit log: https://www.mkyong.com/hibernate/hibernate-interceptor-example-audit-log/
 
+Refresh Token and Access Token explanined : https://jugbd.org/2017/09/19/implementing-oauth2-spring-boot-spring-security/
+
+Password hash to be user : http://dustwell.com/how-to-handle-passwords-bcrypt.html
+
 
